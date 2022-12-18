@@ -48,9 +48,6 @@ services:
   auth:
     container_name: supabase-auth
     image: supabase/gotrue:v2.31.0
-    depends_on:
-      db: # Disable this if you are using an external Postgres database
-        condition: service_healthy
     restart: unless-stopped
     environment:
       GOTRUE_API_HOST: 0.0.0.0
@@ -92,9 +89,6 @@ services:
   rest:
     container_name: supabase-rest
     image: postgrest/postgrest:v9.0.1.20220717
-    depends_on:
-      db: # Disable this if you are using an external Postgres database
-        condition: service_healthy
     restart: unless-stopped
     environment:
       PGRST_DB_URI: postgres://authenticator:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
@@ -106,9 +100,6 @@ services:
   realtime:
     container_name: supabase-realtime
     image: supabase/realtime:v0.25.1
-    depends_on:
-      db: # Disable this if you are using an external Postgres database
-        condition: service_healthy
     restart: unless-stopped
     environment:
       DB_HOST: ${POSTGRES_HOST}
@@ -132,8 +123,6 @@ services:
     container_name: supabase-storage
     image: supabase/storage-api:v0.26.1
     depends_on:
-      db: # Disable this if you are using an external Postgres database
-        condition: service_healthy
       rest:
         condition: service_started
     restart: unless-stopped
@@ -168,9 +157,6 @@ services:
   meta:
     container_name: supabase-meta
     image: supabase/postgres-meta:v0.52.1
-    depends_on:
-      db: # Disable this if you are using an external Postgres database
-        condition: service_healthy
     restart: unless-stopped
     environment:
       PG_META_PORT: 8080
@@ -179,27 +165,3 @@ services:
       PG_META_DB_NAME: ${POSTGRES_DB}
       PG_META_DB_USER: supabase_admin
       PG_META_DB_PASSWORD: ${POSTGRES_PASSWORD}
-
-  # Comment out everything below this point if you are using an external Postgres database
-  db:
-    container_name: supabase-db
-    image: supabase/postgres:14.1.0.89
-    healthcheck:
-      test: pg_isready -U postgres -h localhost
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    command:
-      - postgres
-      - -c
-      - config_file=/etc/postgresql/postgresql.conf
-      - -c
-      - log_min_messages=fatal # prevents Realtime polling queries from appearing in logs
-    restart: unless-stopped
-    ports:
-      - ${POSTGRES_PORT}:5432
-    environment:
-      POSTGRES_HOST: /var/run/postgresql
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - ./volumes/db/roles.sql:/docker-entrypoint-initdb.d/roles.sql
