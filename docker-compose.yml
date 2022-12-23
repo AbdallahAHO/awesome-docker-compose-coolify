@@ -8,14 +8,9 @@ services:
     ports:
       - 8080:80
     environment:
-      - APP_KEY=base64:RgMZ9uWIVVIojeYZvT00uJv7/O7K/FNGP1yHakdfwOs=
       - DB_HOST=db
       - DB_USERNAME=usermonica
       - DB_PASSWORD=secret
-      - APP_ENV=production
-      - APP_TRUSTED_PROXIES=*
-      - APP_URL=https://people.abdallah.work
-
     volumes:
       - data:/var/www/html/storage
     restart: always
