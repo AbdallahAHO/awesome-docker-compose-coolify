@@ -12,6 +12,10 @@ services:
       - DB_HOST=db
       - DB_USERNAME=usermonica
       - DB_PASSWORD=secret
+      - APP_ENV=production
+      - APP_TRUSTED_PROXIES=*
+      - APP_URL=https://people.abdallah.work
+
     volumes:
       - data:/var/www/html/storage
     restart: always
