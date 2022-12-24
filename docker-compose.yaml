@@ -5,8 +5,6 @@ services:
   baserow:
     container_name: baserow
     image: baserow/baserow:1.13.3
-    environment:
-      BASEROW_PUBLIC_URL: 'https://tables.abdallah.work'
     ports:
       - "80:80"
       - "443:443"
