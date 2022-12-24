@@ -61,7 +61,7 @@ services:
       AUTH_SMTP_USER: user
       AUTH_SMTP_PASS: password
       AUTH_SMTP_SENDER: mail@example.com
-    expose: 
+    expose:
       - 4000
     labels:
       - "traefik.enable=true"
@@ -107,7 +107,7 @@ services:
       - "traefik.http.routers.functions.middlewares=strip-functions@docker"
       - "traefik.http.routers.functions.entrypoints=web"
     restart: always
-    expose: 
+    expose:
       - 3000
     volumes:
       - .:/opt/project
@@ -135,7 +135,7 @@ services:
       SMTP_SECURE: "${AUTH_SMTP_SECURE:-false}"
       SMTP_SENDER: ${AUTH_SMTP_SENDER:-hbp@hbp.com}
     ports:
-      - ${AUTH_SMTP_PORT:-1025}:1025 
+      - ${AUTH_SMTP_PORT:-1025}:1025
       - 8025:8025
     volumes:
       - ./data/mailhog:/maildir
