@@ -6,9 +6,12 @@ services:
     shm_size: "2gb"
     ports:
       - "8080:8080"
-      - "52000-52100:52000-52100/udp"
+      - "8081:8081/tcp"
+      - "8082:8082/udp"
     environment:
-      NEKO_SCREEN: '1920x1080@30'
+      NEKO_SCREEN: 1920x1080@30
       NEKO_PASSWORD: neko
       NEKO_PASSWORD_ADMIN: admin
-      NEKO_EPR: 52000-52100
+      NEKO_TCPMUX: 8081
+      NEKO_UDPMUX: 8082
+      NEKO_ICELITE: 1
