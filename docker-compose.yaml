@@ -8,6 +8,8 @@ services:
       - "8080:8080"
       - "8081:8081/tcp"
       - "8082:8082/udp"
+    cap_add:
+      - SYS_ADMIN
     environment:
       NEKO_SCREEN: 1920x1080@60
       NEKO_PASSWORD: neko
